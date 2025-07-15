@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile - POLLz</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <header>
+        <h1>POLLz</h1>
+    </header>
+    <main style="display:flex;justify-content:center;align-items:center;min-height:60vh;">
+        <div class="modal-content" style="min-width:320px;max-width:90vw;">
+            <!-- Login Form -->
+            <div id="loginSection">
+                <h2>Login</h2>
+                <form id="loginForm">
+                    <label for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" required><br><br>
+                    <label for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br><br>
+                    <button type="submit" id="loginBtn">Login</button>
+                </form>
+                <p id="loginError" style="color:red;"></p>
+                <p>Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+            </div>
+            <!-- Signup Form (hidden by default) -->
+            <div id="signupSection" style="display:none;">
+                <h2>Sign Up</h2>
+                <form id="signupForm">
+                    <label for="signupEmail">Email:</label><br>
+                    <input type="email" id="signupEmail" name="signupEmail" required><br><br>
+                    <label for="signupPassword">Password:</label><br>
+                    <input type="password" id="signupPassword" name="signupPassword" required><br><br>
+                    <button type="submit" id="signupBtn">Sign Up</button>
+                </form>
+                <p id="signupError" style="color:red;"></p>
+                <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </div>
+            <!-- Profile Form (hidden until needed) -->
+            <div id="profileSection" style="display:none;">
+                <h2>Create Your Profile</h2>
+                <form id="profileForm">
+                    <label for="username">Username (lowercase letters & numbers only):</label><br>
+                    <input type="text" id="username" name="username" pattern="[a-z0-9]+" required><br><br>
+                    <label for="age">Age:</label><br>
+                    <input type="number" id="age" name="age" min="1" max="120" required><br><br>
+                    <label for="gender">Gender:</label><br>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select><br><br>
+                    <button type="submit" id="saveProfileBtn">Save Profile</button>
+                </form>
+                <p id="profileError" style="color:red;"></p>
+            </div>
+        </div>
+    </main>
+    <script>
+    // 1. Add your Firebase config here
+    const firebaseConfig = {
+        apiKey: "AIzaSyAMlieM1Hfv0Fiuu30mAjzSlzDYevl3nZs",
+        authDomain: "pollz-fire.firebaseapp.com",
+        projectId: "pollz-fire",
+        // ...other config
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // UI elements
+    const loginSection = document.getElementById('loginSection');
+    const signupSection = document.getElementById('signupSection');
+    const profileSection = document.getElementById('profileSection');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const profileForm = document.getElementById('profileForm');
+    const loginError = document.getElementById('loginError');
+    const signupError = document.getElementById('signupError');
+    const profileError = document.getElementById('profileError');
+    document.getElementById('showSignup').onclick = function() {
+        loginSection.style.display = 'none';
+        signupSection.style.display = 'block';
+    };
+    document.getElementById('showLogin').onclick = function() {
+        signupSection.style.display = 'none';
+        loginSection.style.display = 'block';
+    };
+
+    // 2. Auth state listener
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            // Check if profile exists in Firestore
+            db.collection('profiles').doc(user.uid).get().then(function(doc) {
+                if (doc.exists) {
+                    // Profile exists, go to feed
+                    window.location.href = 'index.html';
+                } else {
+                    // No profile, show profile form
+                    loginSection.style.display = 'none';
+                    signupSection.style.display = 'none';
+                    profileSection.style.display = 'block';
+                }
+            });
+        } else {
+            // Show login
+            loginSection.style.display = 'block';
+            signupSection.style.display = 'none';
+            profileSection.style.display = 'none';
+        }
+    });
+
+    // 3. Login
+    loginForm.onsubmit = function(e) {
+        e.preventDefault();
+        loginError.textContent = '';
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        auth.signInWithEmailAndPassword(email, password)
+            .then(function(cred) {
+                // After login, check for profile immediately
+                db.collection('profiles').doc(cred.user.uid).get().then(function(doc) {
+                    if (doc.exists) {
+                        window.location.href = 'index.html';
+                    } else {
+                        loginSection.style.display = 'none';
+                        signupSection.style.display = 'none';
+                        profileSection.style.display = 'block';
+                    }
+                });
+            })
+            .catch(function(error) {
+                loginError.textContent = error.message;
+            });
+    };
+
+    // 4. Signup
+    signupForm.onsubmit = function(e) {
+        e.preventDefault();
+        signupError.textContent = '';
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        auth.createUserWithEmailAndPassword(email, password)
+            .catch(function(error) {
+                signupError.textContent = error.message;
+            });
+    };
+
+    // 5. Profile form
+    profileForm.onsubmit = function(e) {
+        e.preventDefault();
+        profileError.textContent = '';
+        const username = document.getElementById('username').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const gender = document.getElementById('gender').value;
+        const usernamePattern = /^[a-z0-9]+$/;
+        if (!usernamePattern.test(username)) {
+            profileError.textContent = 'Username must contain only lowercase letters and numbers.';
+            return;
+        }
+        // Save profile to Firestore
+        const user = auth.currentUser;
+        if (!user) {
+            profileError.textContent = 'You must be logged in.';
+            return;
+        }
+        // Check if username is unique
+        db.collection('profiles').where('username', '==', username).get().then(function(snapshot) {
+            if (!snapshot.empty) {
+                profileError.textContent = 'Username already taken.';
+                return;
+            }
+            // Save to Firestore
+            db.collection('profiles').doc(user.uid).set({
+                username: username,
+                age: age,
+                gender: gender,
+                email: user.email
+            }).then(function() {
+                window.location.href = 'index.html';
+            }).catch(function(error) {
+                profileError.textContent = error.message;
+            });
+        });
+    };
+    </script>
+</body>
+</html> 

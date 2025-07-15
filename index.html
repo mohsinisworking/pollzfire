@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLLz - Feed</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <header>
+        <h1>POLLz</h1>
+    </header>
+    <main>
+        <div class="feed"></div>
+    </main>
+    <!-- Modal for creating a poll -->
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Create a Poll</h2>
+            <form id="pollForm">
+                <label for="question">Question:</label><br>
+                <input type="text" id="question" name="question" required><br><br>
+                <label>Options:</label><br>
+                <div id="optionsContainer">
+                    <input type="text" name="option" class="option-input" required placeholder="Option 1"><br>
+                    <input type="text" name="option" class="option-input" required placeholder="Option 2"><br>
+                </div>
+                <button type="button" id="addOption">Add Option</button><br><br>
+                <button type="submit" id="postBtn">Post</button>
+            </form>
+        </div>
+    </div>
+    <button class="fab" title="Create a Poll">+</button>
+    <script src="script.js"></script>
+</body>
+</html> 
