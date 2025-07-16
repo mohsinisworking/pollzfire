@@ -17,6 +17,19 @@
         <div id="loading-message" style="margin-top:20px; color:#1976d2; font-weight:bold;"></div>
         <a href="index.html" style="color:#1976d2; text-decoration:underline; display:block; margin-top:40px;">Back to Feed</a>
     </main>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+        apiKey: "AIzaSyAMlieM1Hfv0Fiuu30mAjzSlzDYevl3nZs",
+        authDomain: "pollz-fire.firebaseapp.com",
+        projectId: "pollz-fire"
+      };
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="details.js"></script>
 </body>
