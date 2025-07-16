@@ -80,7 +80,7 @@ function initializeFeed() {
 function attachVotingLogic() {
     var polls = document.querySelectorAll('.poll');
     polls.forEach(function(poll) {
-        var pollId = getPollId(poll);
+        let pollId = getPollId(poll);
         var options = poll.querySelectorAll('.option');
         var userId = getUserId();
         // Fetch votes for this poll from Firestore
@@ -146,7 +146,7 @@ function attachVotingLogic() {
         // Navigate to details page if poll is clicked (not option)
         poll.addEventListener('click', function(event) {
             if (!event.target.classList.contains('option')) {
-                window.location.href = 'details.html';
+                window.location.href = 'details.html?pollId=' + pollId;
             }
         });
     });

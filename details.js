@@ -40,28 +40,42 @@ function groupVotesByOption(votes) {
 
 // --- Utility: Aggregate gender and age for a set of votes ---
 function aggregateStats(votes, profiles) {
-    const genderCounts = { Male: 0, Female: 0, Unknown: 0 };
-    const ageCounts = { '18+': 0, '<18': 0, Unknown: 0 };
+    const genderCounts = { Male: 0, Female: 0 };
+    const ageCounts = { '1-12': 0, '13-28': 0, '29-44': 0, '45-60': 0, '61-79': 0 };
     votes.forEach(vote => {
         const profile = profiles[vote.userId];
         if (profile) {
-            // Gender
-            if (profile.gender === 'Male') genderCounts.Male++;
-            else if (profile.gender === 'Female') genderCounts.Female++;
-            else genderCounts.Unknown++;
-            // Age
-            if (typeof profile.age === 'number') {
-                if (profile.age >= 18) ageCounts['18+']++;
-                else ageCounts['<18']++;
-            } else {
-                ageCounts.Unknown++;
+            // Normalize gender
+            let gender = (profile.gender || '').toLowerCase();
+            if (gender === 'male') genderCounts.Male++;
+            else if (gender === 'female') genderCounts.Female++;
+            // Age buckets
+            const age = Number(profile.age);
+            if (!isNaN(age)) {
+                if (age >= 1 && age <= 12) ageCounts['1-12']++;
+                else if (age >= 13 && age <= 28) ageCounts['13-28']++;
+                else if (age >= 29 && age <= 44) ageCounts['29-44']++;
+                else if (age >= 45 && age <= 60) ageCounts['45-60']++;
+                else if (age >= 61 && age <= 79) ageCounts['61-79']++;
             }
-        } else {
-            genderCounts.Unknown++;
-            ageCounts.Unknown++;
         }
     });
     return { genderCounts, ageCounts };
+}
+
+// --- Utility: Build Pie Chart Data (labels, data, colors) for non-zero categories ---
+function buildPieChartData(counts, labelColorMap) {
+    const labels = [];
+    const data = [];
+    const colors = [];
+    for (const [label, color] of Object.entries(labelColorMap)) {
+        if (counts[label] > 0) {
+            labels.push(label);
+            data.push(counts[label]);
+            colors.push(color);
+        }
+    }
+    return { labels, data, colors };
 }
 
 // --- Render Tabs ---
@@ -103,42 +117,63 @@ function renderChartsForOption(optionIndex) {
     const genderCanvas = document.createElement('canvas');
     genderCanvas.width = 200; genderCanvas.height = 200;
     chartsContainer.appendChild(genderCanvas);
-    genderChart = new Chart(genderCanvas, {
-        type: 'pie',
-        data: {
-            labels: ['Male', 'Female', 'Unknown'],
-            datasets: [{
-                data: [genderCounts.Male, genderCounts.Female, genderCounts.Unknown],
-                backgroundColor: ['#1976d2', '#e91e63', '#bdbdbd'],
-            }]
-        },
-        options: {
-            plugins: { legend: { display: true, position: 'bottom' } },
-            responsive: false,
-            maintainAspectRatio: false,
-            title: { display: true, text: 'Gender' }
-        }
-    });
+    const genderLabelColorMap = {
+        'Male': '#1976d2',
+        'Female': '#e91e63'
+    };
+    const genderPie = buildPieChartData(genderCounts, genderLabelColorMap);
+    if (genderPie.data.length === 0) {
+        chartsContainer.innerHTML += '<p>No gender data for this option.</p>';
+    } else {
+        genderChart = new Chart(genderCanvas, {
+            type: 'pie',
+            data: {
+                labels: genderPie.labels,
+                datasets: [{
+                    data: genderPie.data,
+                    backgroundColor: genderPie.colors,
+                }]
+            },
+            options: {
+                plugins: { legend: { display: true, position: 'bottom' } },
+                responsive: false,
+                maintainAspectRatio: false,
+                title: { display: true, text: 'Gender' }
+            }
+        });
+    }
     // Age Pie Chart
     const ageCanvas = document.createElement('canvas');
     ageCanvas.width = 200; ageCanvas.height = 200;
     chartsContainer.appendChild(ageCanvas);
-    ageChart = new Chart(ageCanvas, {
-        type: 'pie',
-        data: {
-            labels: ['18+', '<18', 'Unknown'],
-            datasets: [{
-                data: [ageCounts['18+'], ageCounts['<18'], ageCounts.Unknown],
-                backgroundColor: ['#388e3c', '#fbc02d', '#bdbdbd'],
-            }]
-        },
-        options: {
-            plugins: { legend: { display: true, position: 'bottom' } },
-            responsive: false,
-            maintainAspectRatio: false,
-            title: { display: true, text: 'Age' }
-        }
-    });
+    const ageLabelColorMap = {
+        '1-12': '#90caf9',
+        '13-28': '#fbc02d',
+        '29-44': '#388e3c',
+        '45-60': '#ab47bc',
+        '61-79': '#ef5350'
+    };
+    const agePie = buildPieChartData(ageCounts, ageLabelColorMap);
+    if (agePie.data.length === 0) {
+        chartsContainer.innerHTML += '<p>No age data for this option.</p>';
+    } else {
+        ageChart = new Chart(ageCanvas, {
+            type: 'pie',
+            data: {
+                labels: agePie.labels,
+                datasets: [{
+                    data: agePie.data,
+                    backgroundColor: agePie.colors,
+                }]
+            },
+            options: {
+                plugins: { legend: { display: true, position: 'bottom' } },
+                responsive: false,
+                maintainAspectRatio: false,
+                title: { display: true, text: 'Age' }
+            }
+        });
+    }
 }
 
 // --- Fetch All User Profiles for Votes ---
