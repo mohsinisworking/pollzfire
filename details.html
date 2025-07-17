@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header class="details-header">
         <h1>POLLz</h1>
     </header>
-    <main id="details-main" style="text-align:center; margin-top:40px;">
-        <h2>Poll Details</h2>
-        <div id="tabs-container" class="tabs-container"></div>
-        <div id="charts-container" class="charts-container" style="display:flex; justify-content:center; gap:40px; margin-top:30px;"></div>
-        <div id="loading-message" style="margin-top:20px; color:#1976d2; font-weight:bold;"></div>
-        <a href="index.html" style="color:#1976d2; text-decoration:underline; display:block; margin-top:40px;">Back to Feed</a>
+    <main class="details-main">
+        <div class="details-card">
+            <div class="details-header-row">
+                <h2 class="details-title">Poll Details</h2>
+                <a href="index.html" class="back-to-feed-btn">&#8592; Back to Feed</a>
+            </div>
+            <div id="tabs-container" class="tabs-container"></div>
+            <div id="selected-option-label" class="selected-option-label"></div>
+            <div id="charts-container" class="charts-container"></div>
+            <div id="loading-message" class="details-loading-message"></div>
+        </div>
     </main>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>

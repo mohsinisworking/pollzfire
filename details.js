@@ -90,14 +90,23 @@ function renderTabs(options) {
         tabsContainer.appendChild(tab);
         optionTabs.push(tab);
     });
+    // Show the first option label by default
+    updateSelectedOptionLabel(options[0]);
 }
 
-// --- Select Tab and Render Charts ---
 function selectTab(optionIndex) {
     optionTabs.forEach((tab, idx) => {
         tab.classList.toggle('active', idx === optionIndex);
     });
+    updateSelectedOptionLabel(pollData.options[optionIndex]);
     renderChartsForOption(optionIndex);
+}
+
+function updateSelectedOptionLabel(optionText) {
+    const labelDiv = document.getElementById('selected-option-label');
+    if (labelDiv) {
+        labelDiv.textContent = optionText ? `Selected Option: ${optionText}` : '';
+    }
 }
 
 // --- Render Charts for Selected Option ---

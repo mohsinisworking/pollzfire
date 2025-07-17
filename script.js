@@ -70,6 +70,11 @@ function initializeFeed() {
                 pollOptionsDiv.appendChild(btn);
             });
             pollDiv.appendChild(pollOptionsDiv);
+            // Add total votes display
+            var totalVotesDiv = document.createElement('div');
+            totalVotesDiv.className = 'total-votes';
+            totalVotesDiv.textContent = 'Total Votes: ...'; // Will be updated after fetching votes
+            pollDiv.appendChild(totalVotesDiv);
             feed.appendChild(pollDiv);
         });
         // After rendering all polls, attach voting logic
@@ -83,6 +88,7 @@ function attachVotingLogic() {
         let pollId = getPollId(poll);
         var options = poll.querySelectorAll('.option');
         var userId = getUserId();
+        var totalVotesDiv = poll.querySelector('.total-votes');
         // Fetch votes for this poll from Firestore
         db.collection('polls').doc(pollId).collection('votes').get().then(function(snapshot) {
             var votes = Array(options.length).fill(0);
@@ -98,6 +104,10 @@ function attachVotingLogic() {
                     }
                 }
             });
+            // Show total votes
+            if (totalVotesDiv) {
+                totalVotesDiv.textContent = 'Total Votes: ' + totalVotes;
+            }
             // Show percentages if user has voted
             if (userVotedOption !== null) {
                 showPercentages(options, votes, totalVotes);
@@ -132,6 +142,10 @@ function attachVotingLogic() {
                                     totalVotes++;
                                 }
                             });
+                            // Update total votes
+                            if (totalVotesDiv) {
+                                totalVotesDiv.textContent = 'Total Votes: ' + totalVotes;
+                            }
                             showPercentages(options, votes, totalVotes);
                             options.forEach(function(opt, idx) {
                                 opt.disabled = true;
