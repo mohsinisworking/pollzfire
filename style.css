@@ -54,6 +54,7 @@ header h1 {
   transition: box-shadow 0.2s, border 0.2s;
   border: 1.5px solid var(--primary-blue-light);
   margin-bottom: 0;
+  position: relative;
 }
 .poll-question {
   font-size: 1.13em;
@@ -444,4 +445,34 @@ header h1 {
     max-width: 320px !important;
     height: auto !important;
   }
+} 
+
+.poll-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2px;
+  padding-left: 2px;
+}
+.poll-question {
+  flex: 1 1 auto;
+  color: var(--primary-blue);
+  font-size: 1.13em;
+  font-weight: 600;
+  margin: 0;
+  text-align: left;
+}
+.poll-username {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.98em;
+  letter-spacing: 0.01em;
+  margin: 0;
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--card-bg);
+  padding: 0 4px;
+  z-index: 2;
 } 

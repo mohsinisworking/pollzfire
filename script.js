@@ -54,27 +54,55 @@ function initializeFeed() {
     feed.innerHTML = '';
     // Fetch all polls from Firestore
     db.collection('polls').orderBy('createdAt', 'desc').get().then(function(snapshot) {
+        const pollDocs = [];
         snapshot.forEach(function(doc) {
-            var pollData = doc.data();
-            var pollId = doc.id;
-            var pollDiv = document.createElement('div');
-            pollDiv.className = 'poll';
-            pollDiv.setAttribute('data-poll-id', pollId);
-            pollDiv.innerHTML = '<div class="poll-question">' + pollData.question + '</div>';
-            var pollOptionsDiv = document.createElement('div');
-            pollOptionsDiv.className = 'poll-options';
-            pollData.options.forEach(function(opt) {
-                var btn = document.createElement('button');
-                btn.className = 'option';
-                btn.textContent = opt;
-                pollOptionsDiv.appendChild(btn);
-            });
-            pollDiv.appendChild(pollOptionsDiv);
-            // Remove total votes display from feed
-            feed.appendChild(pollDiv);
+            pollDocs.push({ id: doc.id, data: doc.data() });
         });
-        // After rendering all polls, attach voting logic
-        attachVotingLogic();
+        // Collect all unique creator UIDs
+        const creatorUids = Array.from(new Set(pollDocs.map(p => p.data.createdBy)));
+        // Fetch all usernames in one go
+        const profilePromises = creatorUids.map(uid => db.collection('profiles').doc(uid).get());
+        Promise.all(profilePromises).then(profileDocs => {
+            const uidToUsername = {};
+            profileDocs.forEach(doc => {
+                if (doc.exists) {
+                    uidToUsername[doc.id] = doc.data().username;
+                }
+            });
+            pollDocs.forEach(function(pollObj) {
+                var pollData = pollObj.data;
+                var pollId = pollObj.id;
+                var pollDiv = document.createElement('div');
+                pollDiv.className = 'poll';
+                pollDiv.setAttribute('data-poll-id', pollId);
+                // Poll header row: question left, username right
+                var pollHeader = document.createElement('div');
+                pollHeader.className = 'poll-header';
+                var questionDiv = document.createElement('div');
+                questionDiv.className = 'poll-question';
+                questionDiv.textContent = pollData.question;
+                var username = uidToUsername[pollData.createdBy] ? '@' + uidToUsername[pollData.createdBy] : '@unknown';
+                var usernameSpan = document.createElement('span');
+                usernameSpan.className = 'poll-username';
+                usernameSpan.textContent = username;
+                pollHeader.appendChild(questionDiv);
+                pollHeader.appendChild(usernameSpan);
+                pollDiv.appendChild(pollHeader);
+                // Poll options
+                var pollOptionsDiv = document.createElement('div');
+                pollOptionsDiv.className = 'poll-options';
+                pollData.options.forEach(function(opt) {
+                    var btn = document.createElement('button');
+                    btn.className = 'option';
+                    btn.textContent = opt;
+                    pollOptionsDiv.appendChild(btn);
+                });
+                pollDiv.appendChild(pollOptionsDiv);
+                feed.appendChild(pollDiv);
+            });
+            // After rendering all polls, attach voting logic
+            attachVotingLogic();
+        });
     });
 }
 
