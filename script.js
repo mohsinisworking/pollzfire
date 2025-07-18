@@ -70,11 +70,7 @@ function initializeFeed() {
                 pollOptionsDiv.appendChild(btn);
             });
             pollDiv.appendChild(pollOptionsDiv);
-            // Add total votes display
-            var totalVotesDiv = document.createElement('div');
-            totalVotesDiv.className = 'total-votes';
-            totalVotesDiv.textContent = 'Total Votes: ...'; // Will be updated after fetching votes
-            pollDiv.appendChild(totalVotesDiv);
+            // Remove total votes display from feed
             feed.appendChild(pollDiv);
         });
         // After rendering all polls, attach voting logic

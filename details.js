@@ -90,35 +90,41 @@ function renderTabs(options) {
         tabsContainer.appendChild(tab);
         optionTabs.push(tab);
     });
-    // Show the first option label by default
-    updateSelectedOptionLabel(options[0]);
 }
 
 function selectTab(optionIndex) {
     optionTabs.forEach((tab, idx) => {
         tab.classList.toggle('active', idx === optionIndex);
     });
-    updateSelectedOptionLabel(pollData.options[optionIndex]);
     renderChartsForOption(optionIndex);
-}
-
-function updateSelectedOptionLabel(optionText) {
-    const labelDiv = document.getElementById('selected-option-label');
-    if (labelDiv) {
-        labelDiv.textContent = optionText ? `Selected Option: ${optionText}` : '';
-    }
 }
 
 // --- Render Charts for Selected Option ---
 function renderChartsForOption(optionIndex) {
     chartsContainer.innerHTML = '';
+    // Move total votes display above tabs
+    const optionVotes = votes.filter(v => v.optionIndex === optionIndex);
+    const totalVotes = optionVotes.length;
+    let totalVotesDiv = document.getElementById('details-total-votes');
+    if (!totalVotesDiv) {
+        totalVotesDiv = document.createElement('div');
+        totalVotesDiv.id = 'details-total-votes';
+        totalVotesDiv.className = 'details-total-votes';
+        // Insert above tabs-container
+        const tabsContainer = document.getElementById('tabs-container');
+        if (tabsContainer && tabsContainer.parentNode) {
+            tabsContainer.parentNode.insertBefore(totalVotesDiv, tabsContainer);
+        }
+    }
+    totalVotesDiv.textContent = `Total Votes: ${totalVotes}`;
     if (!votes.length) {
         chartsContainer.innerHTML = '<p>No votes yet for this poll.</p>';
+        totalVotesDiv.textContent = 'Total Votes: 0';
         return;
     }
-    const optionVotes = votes.filter(v => v.optionIndex === optionIndex);
     if (!optionVotes.length) {
         chartsContainer.innerHTML = '<p>No votes for this option yet.</p>';
+        totalVotesDiv.textContent = 'Total Votes: 0';
         return;
     }
     const { genderCounts, ageCounts } = aggregateStats(optionVotes, profiles);
@@ -268,6 +274,17 @@ auth.onAuthStateChanged(user => {
             box-shadow: 0 2px 8px #0001;
             border-radius: 12px;
             background: #fff;
+        }
+        .details-total-votes {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 15px;
+            padding: 10px 15px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            border: 1px solid #1976d2;
+            text-align: center;
         }
     `;
     document.head.appendChild(style);

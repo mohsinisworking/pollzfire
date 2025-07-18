@@ -1,220 +1,242 @@
+/* POLLz Modern Blue-Themed UI/UX Styles */
+:root {
+  --primary-blue: #1976d2;
+  --primary-blue-dark: #1565c0;
+  --primary-blue-light: #e3f0fd;
+  --accent-blue: #90caf9;
+  --background: #f5f8fc;
+  --card-bg: #fff;
+  --border-radius: 12px;
+  --shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  --shadow-strong: 0 4px 24px rgba(25, 118, 210, 0.13);
+  --text-main: #1a237e;
+  --text-muted: #5c6bc0;
+  --danger: #e53935;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #e3f0fd;
-    margin: 0;
-    padding: 0;
-    color: #222;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--background);
+  margin: 0;
+  padding: 0;
+  color: var(--text-main);
 }
 
 header {
-    background: #1565c0;
-    color: #fff;
-    padding: 12px 0;
-    text-align: center;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(21, 101, 192, 0.10);
+  background: var(--primary-blue);
+  color: #fff;
+  padding: 10px 0;
+  text-align: center;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+header h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.04em;
 }
 
 .feed {
-    max-width: 520px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  max-width: 520px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .poll {
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 4px 16px rgba(21, 101, 192, 0.13);
-    padding: 24px;
-    cursor: pointer;
-    transition: box-shadow 0.2s, border 0.2s;
-    border: 2px solid #e3f0fd;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-strong);
+  padding: 18px 16px 14px 16px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border 0.2s;
+  border: 1.5px solid var(--primary-blue-light);
+  margin-bottom: 0;
 }
-
 .poll-question {
-    font-size: 1.15em;
-    margin-bottom: 18px;
-    color: #1565c0;
-    font-weight: bold;
+  font-size: 1.13em;
+  margin-bottom: 14px;
+  color: var(--primary-blue);
+  font-weight: 600;
 }
-
 .poll-options {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-
 .option {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #e3f0fd;
-    border: 2px solid #90caf9;
-    border-radius: 6px;
-    padding: 12px 16px;
-    font-size: 1em;
-    color: #1565c0;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, border 0.2s;
-    text-align: left;
-    font-weight: 500;
-    box-shadow: 0 1px 4px rgba(25, 118, 210, 0.07);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-blue-light);
+  border: 1.5px solid var(--accent-blue);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 1em;
+  color: var(--primary-blue);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  text-align: left;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.07);
 }
-
 .option.selected {
-    background: #1976d2;
-    color: #fff;
-    border-color: #1565c0;
+  background: var(--primary-blue);
+  color: #fff;
+  border-color: var(--primary-blue-dark);
 }
-
 .option:disabled {
-    opacity: 0.8;
-    cursor: not-allowed;
+  opacity: 0.85;
+  cursor: not-allowed;
 }
-
 .option-percentage {
-    color: #1565c0;
-    font-weight: bold;
-    font-size: 0.98em;
-    margin-left: 10px;
-    text-align: right;
+  color: var(--primary-blue);
+  font-weight: 600;
+  font-size: 0.98em;
+  margin-left: 10px;
+  text-align: right;
 }
 .option.selected .option-percentage {
-    color: #fff;
+  color: #fff;
 }
 
-/* Floating Action Button (FAB) */
+.total-votes {
+  font-size: 0.98em;
+  color: var(--primary-blue);
+  margin-top: 8px;
+  text-align: right;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: none;
+  padding-right: 2px;
+}
+
 .fab {
-    position: fixed;
-    right: 32px;
-    bottom: 32px;
-    width: 56px;
-    height: 56px;
-    background: #1976d2;
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    box-shadow: 0 4px 16px rgba(25, 118, 210, 0.25);
-    font-size: 2em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    z-index: 100;
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 52px;
+  height: 52px;
+  background: var(--primary-blue);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  z-index: 100;
+}
+.fab:hover {
+  background: var(--primary-blue-dark);
 }
 
 /* Modal Styles */
 .modal {
-    position: fixed;
-    z-index: 200;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  z-index: 200;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .modal-content {
-    background: #fff;
-    padding: 24px 32px;
-    border-radius: 10px;
-    box-shadow: 0 4px 24px rgba(21, 101, 192, 0.18);
-    min-width: 320px;
-    max-width: 90vw;
-    position: relative;
-}
-.close {
-    position: absolute;
-    top: 12px;
-    right: 18px;
-    font-size: 1.5em;
-    color: #1976d2;
-    cursor: pointer;
-}
-#pollForm input[type="text"] {
-    width: 90%;
-    padding: 8px;
-    margin-bottom: 8px;
-    border: 1px solid #90caf9;
-    border-radius: 4px;
-    font-size: 1em;
-}
-#addOption {
-    background: #e3f0fd;
-    color: #1976d2;
-    border: 1px solid #90caf9;
-    border-radius: 4px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 1em;
-    margin-bottom: 8px;
-}
-#addOption:hover {
-    background: #bbdefb;
-}
-#postBtn {
-    background: #1976d2;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 24px;
-    font-size: 1em;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-#postBtn:hover {
-    background: #1565c0;
-}
-#profileForm input[type="text"],
-#profileForm input[type="number"],
-#profileForm select {
-    width: 90%;
-    padding: 8px;
-    margin-bottom: 8px;
-    border: 1px solid #90caf9;
-    border-radius: 4px;
-    font-size: 1em;
-}
-#saveProfileBtn {
-    background: #1976d2;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    padding: 10px 24px;
-    font-size: 1em;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-#saveProfileBtn:hover {
-    background: #1565c0;
-} 
-
-/* POLLz Auth/Profile Modern Styles */
-.modal-content {
-  background: #fff;
-  padding: 32px 28px;
-  border-radius: 14px;
-  box-shadow: 0 4px 24px rgba(21, 101, 192, 0.18);
+  background: var(--card-bg);
+  padding: 24px 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-strong);
   min-width: 320px;
   max-width: 90vw;
   position: relative;
   margin: 0 auto;
 }
+.close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.5em;
+  color: var(--primary-blue);
+  cursor: pointer;
+}
+#pollForm input[type="text"] {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  font-size: 1em;
+}
+#addOption {
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+#addOption:hover {
+  background: var(--accent-blue);
+}
+#postBtn {
+  background: var(--primary-blue);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+#postBtn:hover {
+  background: var(--primary-blue-dark);
+}
+#profileForm input[type="text"],
+#profileForm input[type="number"],
+#profileForm select {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 8px;
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  font-size: 1em;
+}
+#saveProfileBtn {
+  background: var(--primary-blue);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 24px;
+  font-size: 1em;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+#saveProfileBtn:hover {
+  background: var(--primary-blue-dark);
+}
+
+/* POLLz Auth/Profile Modern Styles */
 #loginSection, #signupSection, #profileSection {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 #loginSection h2, #signupSection h2, #profileSection h2 {
-  color: #1976d2;
+  color: var(--primary-blue);
   margin-bottom: 18px;
   font-weight: 700;
 }
@@ -227,19 +249,19 @@ header {
 }
 #loginForm input, #signupForm input, #profileForm input, #profileForm select {
   padding: 10px 12px;
-  border: 1.5px solid #90caf9;
+  border: 1.5px solid var(--accent-blue);
   border-radius: 6px;
   font-size: 1em;
-  background: #e3f0fd;
+  background: var(--primary-blue-light);
   margin-bottom: 6px;
   transition: border 0.2s;
 }
 #loginForm input:focus, #signupForm input:focus, #profileForm input:focus, #profileForm select:focus {
-  border-color: #1976d2;
+  border-color: var(--primary-blue);
   outline: none;
 }
 #loginBtn, #signupBtn, #saveProfileBtn {
-  background: #1976d2;
+  background: var(--primary-blue);
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -251,10 +273,10 @@ header {
   transition: background 0.2s;
 }
 #loginBtn:hover, #signupBtn:hover, #saveProfileBtn:hover {
-  background: #1565c0;
+  background: var(--primary-blue-dark);
 }
 #loginError, #signupError, #profileError {
-  color: #e53935;
+  color: var(--danger);
   font-size: 0.98em;
   margin: 6px 0 0 0;
   min-height: 18px;
@@ -264,41 +286,136 @@ header {
   font-size: 0.98em;
 }
 #loginSection a, #signupSection a {
-  color: #1976d2;
+  color: var(--primary-blue);
   text-decoration: underline;
   cursor: pointer;
 }
-@media (max-width: 600px) {
-  .modal-content {
-    padding: 16px 4px;
-    min-width: 0;
-  }
-  #loginForm, #signupForm, #profileForm {
-    gap: 6px;
-  }
+
+/* Details Page Modern Styles */
+.details-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 80vh;
+  background: none;
+  margin-top: 24px;
+}
+.details-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow-strong);
+  padding: 32px 28px 28px 28px;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.details-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.details-title {
+  color: var(--primary-blue);
+  font-size: 1.35em;
+  font-weight: 700;
+  margin: 0;
+}
+.back-to-feed-btn {
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1em;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 2px 8px #1976d20a;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.back-to-feed-btn:hover {
+  background: var(--accent-blue);
+  color: var(--primary-blue-dark);
+}
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.selected-option-label {
+  text-align: center;
+  font-size: 1.08em;
+  color: var(--primary-blue);
+  font-weight: 500;
+  margin-bottom: 18px;
+  min-height: 24px;
+}
+.charts-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 10px;
+}
+.details-loading-message {
+  margin-top: 20px;
+  color: var(--primary-blue);
+  font-weight: bold;
+  text-align: center;
 }
 
-/* Mobile styles */
+/* Option Tabs Modern Styles */
+.option-tab {
+  background: var(--primary-blue-light);
+  border: none;
+  border-radius: 10px 10px 0 0;
+  padding: 10px 28px;
+  margin: 0 2px;
+  font-size: 1em;
+  cursor: pointer;
+  color: var(--primary-blue);
+  font-weight: 600;
+  outline: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.18s;
+  box-shadow: 0 2px 8px #1976d20a;
+  border-bottom: 2.5px solid transparent;
+  position: relative;
+  z-index: 1;
+}
+.option-tab.active {
+  background: var(--primary-blue);
+  color: #fff;
+  border-bottom: 3.5px solid var(--accent-blue);
+  z-index: 2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.18);
+  transform: scale(1.07);
+}
+.option-tab:hover:not(.active), .option-tab:focus:not(.active) {
+  background: var(--accent-blue);
+  color: var(--primary-blue-dark);
+}
+
+/* Responsive Styles */
 @media (max-width: 600px) {
-  body {
-    font-size: 1em;
-    padding: 0 4px;
-  }
-  header {
-    padding: 16px 0;
-    font-size: 1.2em;
-  }
-  .feed, .modal-content {
+  .feed, .modal-content, .details-card {
     max-width: 100vw;
     min-width: 0;
     padding: 8px;
   }
   .poll {
-    padding: 12px;
+    padding: 10px 4px 10px 4px;
     font-size: 1em;
   }
   .option {
-    padding: 10px 8px;
+    padding: 8px 6px;
     font-size: 1em;
   }
   .charts-container {
@@ -316,10 +433,8 @@ header {
     font-size: 0.95em;
   }
 }
-
-/* Tablet styles */
 @media (min-width: 601px) and (max-width: 900px) {
-  .feed, .modal-content {
+  .feed, .modal-content, .details-card {
     max-width: 90vw;
     min-width: 0;
     padding: 12px;
@@ -328,108 +443,5 @@ header {
     width: 45vw !important;
     max-width: 320px !important;
     height: auto !important;
-  }
-} 
-
-.total-votes {
-  font-size: 0.98em;
-  color: #1976d2;
-  margin-top: 10px;
-  text-align: right;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  background: none;
-  padding-right: 2px;
-} 
-
-/* Details Page Modern Styles */
-.details-main {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 80vh;
-  background: none;
-  margin-top: 24px;
-}
-.details-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(21, 101, 192, 0.13);
-  padding: 32px 28px 28px 28px;
-  max-width: 520px;
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-.details-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
-.details-title {
-  color: #1976d2;
-  font-size: 1.35em;
-  font-weight: 700;
-  margin: 0;
-}
-.back-to-feed-btn {
-  background: #e3f0fd;
-  color: #1976d2;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 18px;
-  font-size: 1em;
-  font-weight: 600;
-  text-decoration: none;
-  box-shadow: 0 2px 8px #1976d20a;
-  transition: background 0.2s, color 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.back-to-feed-btn:hover {
-  background: #bbdefb;
-  color: #1565c0;
-}
-.tabs-container {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 18px;
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-.selected-option-label {
-  text-align: center;
-  font-size: 1.08em;
-  color: #1976d2;
-  font-weight: 500;
-  margin-bottom: 18px;
-  min-height: 24px;
-}
-.charts-container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 10px;
-}
-.details-loading-message {
-  margin-top: 20px;
-  color: #1976d2;
-  font-weight: bold;
-  text-align: center;
-}
-@media (max-width: 600px) {
-  .details-card {
-    padding: 12px 2px 18px 2px;
-    max-width: 100vw;
-  }
-  .charts-container {
-    flex-direction: column !important;
-    gap: 16px !important;
-    align-items: center;
   }
 } 
