@@ -104,7 +104,7 @@ function renderChartsForOption(optionIndex) {
     chartsContainer.innerHTML = '';
     // Move total votes display above tabs
     const optionVotes = votes.filter(v => v.optionIndex === optionIndex);
-    const totalVotes = votes.length; // Show total votes for the entire poll
+    const totalVotes = votes.length; // Use total votes for the poll
     let totalVotesDiv = document.getElementById('details-total-votes');
     if (!totalVotesDiv) {
         totalVotesDiv = document.createElement('div');
@@ -119,12 +119,10 @@ function renderChartsForOption(optionIndex) {
     totalVotesDiv.textContent = `Total Votes: ${totalVotes}`;
     if (!votes.length) {
         chartsContainer.innerHTML = '<p>No votes yet for this poll.</p>';
-        totalVotesDiv.textContent = 'Total Votes: 0';
         return;
     }
     if (!optionVotes.length) {
         chartsContainer.innerHTML = '<p>No votes for this option yet.</p>';
-        totalVotesDiv.textContent = 'Total Votes: 0';
         return;
     }
     const { genderCounts, ageCounts } = aggregateStats(optionVotes, profiles);
