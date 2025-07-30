@@ -104,7 +104,7 @@ function renderChartsForOption(optionIndex) {
     chartsContainer.innerHTML = '';
     // Move total votes display above tabs
     const optionVotes = votes.filter(v => v.optionIndex === optionIndex);
-    const totalVotes = optionVotes.length;
+    const totalVotes = votes.length; // Show total votes for the entire poll
     let totalVotesDiv = document.getElementById('details-total-votes');
     if (!totalVotesDiv) {
         totalVotesDiv = document.createElement('div');
