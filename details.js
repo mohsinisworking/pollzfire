@@ -1,10 +1,3 @@
-// details.js
-// POLLz - Poll Details Dashboard
-// Handles fetching poll, votes, and user profiles, and renders interactive tabs and pie charts for gender and age breakdowns.
-
-// --- Firebase Initialization (assumes Firebase SDK is already loaded globally) ---
-// If not, add Firebase SDK scripts to index.html and details.html as needed.
-
 // --- Config ---
 const db = firebase.firestore();
 const auth = firebase.auth();
@@ -26,16 +19,6 @@ let ageChart = null;
 function getPollIdFromURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get('pollId');
-}
-
-// --- Utility: Group votes by optionIndex ---
-function groupVotesByOption(votes) {
-    const grouped = {};
-    votes.forEach(vote => {
-        if (!grouped[vote.optionIndex]) grouped[vote.optionIndex] = [];
-        grouped[vote.optionIndex].push(vote);
-    });
-    return grouped;
 }
 
 // --- Utility: Aggregate gender and age for a set of votes ---
